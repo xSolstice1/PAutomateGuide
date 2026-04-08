@@ -15,29 +15,19 @@ No configuration needed - just click "New step" to continue.
 
 ## Step 2: Initialize Variables
 
-### Variable 1: Site Address
-- **Action**: "Initialize variable"
-- **Name**: `siteAddress`
-- **Type**: `String`
-- **Value**: `https://yourcompany.sharepoint.com/sites/YourSiteName`
-
-### Variable 2: Library Name
-- **Action**: "Initialize variable"
-- **Name**: `libraryName`
-- **Type**: `String`
-- **Value**: `Shared Documents`
-
-### Variable 3: Excel File Path
+### Variable 1: Excel File Path
 - **Action**: "Initialize variable"
 - **Name**: `excelFilePath`
 - **Type**: `String`
 - **Value**: `/Shared Documents/PIV-Results.xlsx`
 
-### Variable 4: Table Name
+### Variable 2: Table Name
 - **Action**: "Initialize variable"
 - **Name**: `tableName`
 - **Type**: `String`
 - **Value**: `PIVResults`
+
+> **Note**: No variables needed for the SharePoint site or library — you will select these directly from the dropdown pickers in each SharePoint action.
 
 ---
 
@@ -47,9 +37,9 @@ No configuration needed - just click "New step" to continue.
 
 | Field | Value |
 |-------|-------|
-| Site Address | `@{variables('siteAddress')}` (select from dynamic content) |
-| Library Name | `@{variables('libraryName')}` |
-| Folder | `/` (root folder) |
+| Site Address | Select your SharePoint site from the dropdown |
+| Library Name | Select your document library from the dropdown |
+| Folder | Browse and select the target folder using the folder picker |
 | Limit scope to items inside this folder only | **Uncheck** (we want recursive) |
 
 **Important**: Leave "Limit scope" **unchecked** to get ALL items recursively from the entire library.
@@ -95,8 +85,8 @@ Inside the "Apply to each" loop:
 
 | Field | Value |
 |-------|-------|
-| Site Address | `@{variables('siteAddress')}` |
-| Library Name | `@{variables('libraryName')}` |
+| Site Address | Select the same SharePoint site from the dropdown |
+| Library Name | Select the same document library from the dropdown |
 | Folder | `@{items('Apply_to_each')?['FullPath']}` (or use `ServerRelativeUrl`) |
 | Limit scope to items inside this folder only | **Check this box** |
 
@@ -151,8 +141,8 @@ length(body('Filter_array')?['value']) is equal to 0
 
 | Field | Value |
 |-------|-------|
-| Site Address | `@{variables('siteAddress')}` |
-| Library Name | `@{variables('libraryName')}` |
+| Site Address | Select the same SharePoint site from the dropdown |
+| Library Name | Select the same document library from the dropdown |
 | Folder | `@{items('Apply_to_each')?['FullPath']}` |
 | Limit scope to items inside this folder only | **Check this box** |
 | Filter Query | `substringof('piv', Name) eq true` |
@@ -198,7 +188,7 @@ length(body('Get_files_(properties_only)')?['value']) is greater than 0
 ```
 1. Trigger: Manually trigger a flow
    ↓
-2. Initialize Variables (siteAddress, libraryName, excelFilePath, tableName)
+2. Initialize Variables (excelFilePath, tableName)
    ↓
 3. Get files (properties only) - Root folder, NO limit scope (recursive)
    ↓
